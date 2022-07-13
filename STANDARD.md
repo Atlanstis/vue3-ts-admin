@@ -198,3 +198,6 @@ yarn commitizen init cz-conventional-changelog --yarn --dev --exact
 }
 ```
 
+#### 1.5.2. 代码提交验证
+
+> Todo
