@@ -208,7 +208,7 @@ yarn commitizen init cz-conventional-changelog --yarn --dev --exact
 
 > [vue-cli 配置](https://cli.vuejs.org/zh/config/)
 
-## 2.2 Element Plus(按需引入)
+### 2.2 Element Plus(按需引入)
 
 Element Plus，一套为开发者、设计师和产品经理准备的基于 Vue 3.0 的桌面端组件库。
 
@@ -222,13 +222,13 @@ Element Plus，一套为开发者、设计师和产品经理准备的基于 Vue 
 
 2. 安装 [unplugin-element-plus](https://github.com/element-plus/unplugin-element-plus) 来导入样式
 
-   1. 安装 
+   1. 安装
 
       ```shell
       yarn add unplugin-element-plus -D
       ```
 
-   2. 配置 `vue-cnfig.js` 
+   2. 配置 `vue-cnfig.js`
 
       ```js
       module.exports = defineConfig({
@@ -236,7 +236,6 @@ Element Plus，一套为开发者、设计师和产品经理准备的基于 Vue 
           plugins: [require('unplugin-element-plus/webpack')({})]
         }
       })
-      
       ```
 
 3. 统一 `Element Plus` 组件入口，新建 `src/plugins/element-plus.ts`
@@ -245,10 +244,13 @@ Element Plus，一套为开发者、设计师和产品经理准备的基于 Vue 
 import { ElButton, ElMessage } from 'element-plus'
 import { App } from 'vue'
 
-export default (app: App<Element>) => {
-  app.use(ElButton).use(ElMessage)
-}
+const components = [ElButton, ElMessage]
 
+export default (app: App<Element>) => {
+  for (const component of components) {
+    app.use(component)
+  }
+}
 ```
 
 4. 在 `src/main.ts` 下，注册组件
@@ -266,3 +268,58 @@ installElementPlus(app)
 app.use(store).use(router).mount('#app')
 ```
 
+### 2.3 Mock.js
+
+生成随机数据，拦截 Ajax 请求。
+
+> [Mock.js 官网](http://mockjs.com/)
+
+1. 安装
+
+   ```shell
+   yarn add mockjs
+   yarn add @types/mockjs -D
+   ```
+
+2. 配置 mock 数据
+
+   ```typescript
+   import Mock from 'mockjs'
+   
+   Mock.setup({
+     timeout: '300-600'
+   })
+   
+   Mock.mock(
+     '/api/test',
+     'get',
+     Mock.mock({
+       'data|6': [
+         {
+           'title|+1': ['VUE', 'TypeScript', 'React', 'Vite', 'Webpack', 'Angular'],
+           'id|+1': [0, 1, 2, 3, 4, 5]
+         }
+       ],
+       status: 200,
+       msg: '请求成功'
+     })
+   )
+   ```
+   
+   引入该文件，即可通过请求接口 `/api/test` 获取数据。
+
+### 2.4 Axios
+
+Axios 是一个基于 _promise_ 网络请求库，作用于 _node.js_ 和浏览器中。 它是 _isomorphic_ 的(即同一套代码可以运行在浏览器和 node.js 中)。在服务端它使用原生 node.js `http` 模块, 而在客户端 (浏览端) 则使用 XMLHttpRequests。
+
+> [Axios 文档](https://axios-http.com/zh/docs/intro)
+
+1. 安装
+
+   ```shell
+   yarn add axios
+   ```
+
+2. 封装
+
+   参考 `src/service` 目录。
