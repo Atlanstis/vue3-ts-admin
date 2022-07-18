@@ -3,7 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import installElementPlus from './plugins/element-plus'
+// 引入 mockJs
 import '@/mock'
+// 引入全局样式
+import '@/styles/index.scss'
+
 import request from '@/service'
 
 interface DataType {
@@ -31,6 +35,8 @@ request
     console.log(error)
   })
 const app = createApp(App)
+
+// 注册 Eelment Plus 插件
 installElementPlus(app)
 
 app.use(store).use(router).mount('#app')
