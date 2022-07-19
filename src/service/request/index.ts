@@ -1,4 +1,5 @@
 import axios from 'axios'
+import localCache from '@/utils/cache'
 import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 import type { RequestInterceptors, RequestConfig } from './type'
 
@@ -27,7 +28,8 @@ class Request {
       (config) => {
         // 相关认证操作
         if (config.headers) {
-          config.headers.Authorization = 'Authorization'
+          const token = localCache.getCache('token')
+          config.headers.Authorization = token
         }
         return config
       },
@@ -39,7 +41,18 @@ class Request {
     this.instance.interceptors.response.use(
       (res) => {
         const data = res.data
-        if (data.status !== 200) {
+        // 使用 Mock.js 模拟的接口，无法在 Netwrok 面板中显示请求，故在此以打印方式代替
+        const { config } = res
+        console.log('------------------------------')
+        console.log(`请求接口为：${config.url}`)
+        console.log(`请求方式为：${config.method}`)
+        if (config.method === 'post') {
+          console.log(`请求参数为：${config.data}`)
+        }
+        console.log(`响应内容为：`)
+        console.log(data)
+        console.log('------------------------------')
+        if (data.code !== 200) {
           // 非通信错误，程序中因逻辑原因认为的出错
         } else {
           return data

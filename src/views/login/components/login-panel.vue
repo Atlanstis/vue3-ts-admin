@@ -49,8 +49,8 @@ export default defineComponent({
     const loginType = ref('account')
 
     const handleLoginClick = () => {
-      if (loginType.value === 'password') {
-        accountRef.value?.loginAction()
+      if (loginType.value === 'account') {
+        accountRef.value?.loginAction(isKeepPassword.value)
       }
     }
 

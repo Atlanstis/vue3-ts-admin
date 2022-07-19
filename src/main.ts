@@ -7,36 +7,14 @@ import installElementPlus from './plugins/element-plus'
 import '@/mock'
 // 引入全局样式
 import '@/styles/index.scss'
+// 将本地存储的信息存入 vuex
+import { setupStore } from './store'
 
-import request from '@/service'
-
-interface DataType {
-  status: number
-  msg: string
-}
-
-interface CategorysDataType extends DataType {
-  data: {
-    title: string
-    id: number
-  }[]
-}
-
-request
-  .get<CategorysDataType>({
-    url: '/api/test'
-  })
-  .then((res) => {
-    console.log(res.status)
-    console.log(res.data)
-    console.log(res.msg)
-  })
-  .catch((error) => {
-    console.log(error)
-  })
 const app = createApp(App)
 
 // 注册 Eelment Plus 插件
 installElementPlus(app)
+
+setupStore()
 
 app.use(store).use(router).mount('#app')
