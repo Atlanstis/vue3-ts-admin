@@ -9,7 +9,14 @@ import {
   ElInput,
   ElCheckbox,
   ElLink,
-  ElIcon
+  ElIcon,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElContainer,
+  ElMenu,
+  ElMenuItem,
+  ElSubMenu
 } from 'element-plus'
 import { App } from 'vue'
 
@@ -25,7 +32,14 @@ const components = [
   ElInput,
   ElCheckbox,
   ElLink,
-  ElIcon
+  ElIcon,
+  ElAside,
+  ElHeader,
+  ElMain,
+  ElContainer,
+  ElMenu,
+  ElMenuItem,
+  ElSubMenu
 ]
 
 export default (app: App<Element>) => {
