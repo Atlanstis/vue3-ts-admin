@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import localCache from '@/utils/cache'
+import { firstMenu } from '@/utils/map-menus'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -36,6 +37,11 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login'
     }
+  }
+
+  // 用于解决访问 /main 时，无法重新向的问题
+  if (to.path === '/main') {
+    return firstMenu.url
   }
 })
 

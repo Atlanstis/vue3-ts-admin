@@ -5,7 +5,7 @@
       <span v-if="!collapse" class="title">Vue3 + TS</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultActive"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#0c2135"
@@ -16,7 +16,7 @@
         <!-- 二级菜单 -->
         <template v-if="item.type === 1">
           <!-- 二级菜单的可以展开的标题 -->
-          <el-sub-menu :index="item.id + ''">
+          <el-sub-menu :index="`${item.id}`">
             <template #title>
               <menu-icon v-if="item.icon" :icon="item.icon" />
               <span>{{ item.name }}</span>
@@ -24,7 +24,7 @@
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item
-                :index="subitem.id + ''"
+                :index="`${subitem.id}`"
                 @click="handleMenuItemClick(subitem)"
               >
                 <menu-icon v-if="subitem.icon" :icon="subitem.icon" />
@@ -35,7 +35,7 @@
         </template>
         <!-- 一级菜单 -->
         <template v-else-if="item.type === 2">
-          <el-menu-item :index="item.id + ''">
+          <el-menu-item :index="`${item.id}`">
             <menu-icon v-if="item.icon" :icon="item.icon" />
             <span>{{ item.name }}</span>
           </el-menu-item>
@@ -46,10 +46,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, computed, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useStore } from '@/store'
 import MenuIcon from './components/menu-icon'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   components: {
@@ -65,15 +66,18 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
-
     const router = useRouter()
-
+    const route = useRoute()
+    // 获取当前生效菜单的 id
+    const activeMenu = pathMapToMenu(userMenus.value, route.path)
+    const defaultActive = ref(`${activeMenu.id}`)
     const handleMenuItemClick = (item: any) => {
       router.push({
         path: item.url ?? '/not-found'
       })
     }
     return {
+      defaultActive,
       userMenus,
       handleMenuItemClick
     }

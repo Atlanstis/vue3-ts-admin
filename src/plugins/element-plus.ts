@@ -16,7 +16,17 @@ import {
   ElContainer,
   ElMenu,
   ElMenuItem,
-  ElSubMenu
+  ElSubMenu,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownItem,
+  ElOption,
+  ElSelect,
+  ElDatePicker,
+  ElRow,
+  ElCol,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 } from 'element-plus'
 import { App } from 'vue'
 
@@ -39,7 +49,17 @@ const components = [
   ElContainer,
   ElMenu,
   ElMenuItem,
-  ElSubMenu
+  ElSubMenu,
+  ElAvatar,
+  ElDropdown,
+  ElDropdownItem,
+  ElOption,
+  ElSelect,
+  ElDatePicker,
+  ElRow,
+  ElCol,
+  ElBreadcrumb,
+  ElBreadcrumbItem
 ]
 
 export default (app: App<Element>) => {
